@@ -36,8 +36,11 @@ def create_customer_profiles(n_customers):
             ["Food", "Beverages", "Personal Hygiene", "Snacks", "Household Cleaning"], # Categorias de productos preferidas asumiendo fast-consuming products
             n_customers
         ),
-        "brand_loyalty": np.random.beta(a=2, b=2, size=n_customers), # Lealtad a la marca
-        "discount_sensitivity": np.random.beta(a=1.5, b=3, size=n_customers), # Sensibilidad al descuento, interés en promociones
+        # Generate 4 random numbers and normalize them to sum to 1 for each customer
+        **{k: v for k, v in zip(
+            ['ingredients', 'quality', 'brand_loyalty', 'discount_sensitivity'],
+            np.random.dirichlet(alpha=[1, 1, 1, 1], size=n_customers).T
+        )},
     })
 
     customer_profiles["clv"] = (
